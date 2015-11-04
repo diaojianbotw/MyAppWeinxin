@@ -3,6 +3,7 @@ package com.example.myappweixin;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ public class Whatnew extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.whatnews_viewpager);
 		mViewPager = (ViewPager) findViewById(R.id.whatsnew_viewpager);
+		mViewPager.setOnPageChangeListener(new MyOnchangePageListener());
 		
 		mpage0 = (ImageView) findViewById(R.id.page0);
 		mpage1 = (ImageView) findViewById(R.id.page1);
@@ -115,6 +117,11 @@ public class Whatnew extends Activity{
 					mpage1.setImageDrawable(getResources().getDrawable(R.drawable.page_now));
 					mpage2.setImageDrawable(getResources().getDrawable(R.drawable.page));
 					break;
+				case 2:
+					mpage1.setImageDrawable(getResources().getDrawable(R.drawable.page));
+					mpage2.setImageDrawable(getResources().getDrawable(R.drawable.page_now));
+					mpage3.setImageDrawable(getResources().getDrawable(R.drawable.page));
+					break;
 				case 3:
 					mpage2.setImageDrawable(getResources().getDrawable(R.drawable.page));
 					mpage3.setImageDrawable(getResources().getDrawable(R.drawable.page_now));
@@ -124,6 +131,7 @@ public class Whatnew extends Activity{
 					mpage3.setImageDrawable(getResources().getDrawable(R.drawable.page));
 					mpage4.setImageDrawable(getResources().getDrawable(R.drawable.page_now));
 					mpage5.setImageDrawable(getResources().getDrawable(R.drawable.page));
+					break;
 				case 5:
 					mpage4.setImageDrawable(getResources().getDrawable(R.drawable.page));
 					mpage5.setImageDrawable(getResources().getDrawable(R.drawable.page_now));
@@ -131,5 +139,12 @@ public class Whatnew extends Activity{
 			}
 		}
 		
+	}
+	
+	public void clickStart(View v)
+	{
+		Intent intent = new Intent(Whatnew.this,WhatsnewDoor.class);
+		startActivity(intent);
+		this.finish();
 	}
 }

@@ -22,5 +22,6 @@
 	   android:layout_gravity="center"
 	   android:layout_marginTop="260dp"
 	   android:background="@drawable/btn_style_green"
+	   android:onClick="clickStart"
 	    />
 </LinearLayout>

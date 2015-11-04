@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/wei"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -26,6 +26,7 @@
         <activity android:name=".login"></activity>
         <activity android:name=".Loading"></activity>
          <activity android:name=".Whatnew"></activity>
+         <activity android:name=".WhatsnewDoor"></activity>
     </application>
 
 </manifest>
