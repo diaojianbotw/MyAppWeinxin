@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/w03"
+    >
+    
+	<TextView 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="通过视频聊天\n你甚至可以和朋友\n面对面沟通"
+	    android:gravity="center"
+	    android:layout_marginTop="35dp"
+	    android:textSize="20dp"
+	    />
+</RelativeLayout>

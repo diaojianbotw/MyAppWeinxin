@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".Welcome"></activity>
         <activity android:name=".login"></activity>
+        <activity android:name=".Loading"></activity>
+         <activity android:name=".Whatnew"></activity>
     </application>
 
 </manifest>

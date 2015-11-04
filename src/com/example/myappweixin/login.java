@@ -23,9 +23,10 @@ public class login extends Activity {
 
 	public void clickLogin(View v)
 	{
-		if("weixin".equals(username) && "123".equals(username))
+		if("weixin".equals(username.getText().toString()) && "123".equals(password.getText().toString()))
 		{
-			
+			Intent intent = new Intent(login.this,Loading.class);
+			startActivity(intent);
 		}
 		else if("".equals(username) || "".equals(password) )
 		{
