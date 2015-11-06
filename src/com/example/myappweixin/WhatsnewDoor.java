@@ -1,6 +1,7 @@
 package com.example.myappweixin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
@@ -71,8 +72,8 @@ public class WhatsnewDoor extends Activity{
 			
 			@Override
 			public void run() {
-			Toast.makeText(WhatsnewDoor.this, "即将进入聊天页面", Toast.LENGTH_SHORT).show();
-				
+				Intent intent = new Intent(WhatsnewDoor.this,MainWeinxin.class);
+				startActivity(intent);				
 			}
 		}, 2300);
 	}

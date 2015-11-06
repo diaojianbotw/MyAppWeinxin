@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-	<include layout="@layout/title"/>
 	
 	<RelativeLayout 
 	    android:id="@+id/title" 
@@ -31,6 +29,7 @@
 	        android:layout_width="50dp"
 	        android:layout_height="35dp"
 	        android:layout_centerVertical="true"
+	        android:onClick="btnmainright"
 	        android:background="@drawable/title_btn_right"
 	        />
 	</RelativeLayout>

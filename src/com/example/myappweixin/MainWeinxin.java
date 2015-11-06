@@ -4,17 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 public class MainWeinxin extends Activity{
 
@@ -26,6 +34,10 @@ public class MainWeinxin extends Activity{
 	private int two;
 	private int three;
 	private int currIndex = 0;
+	private LayoutInflater  layoutInflater;
+	private View view;
+	private PopupWindow popupWindow;
+	private boolean menuflag;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -42,7 +54,7 @@ public class MainWeinxin extends Activity{
 		mTab3 = (ImageView) findViewById(R.id.img_friends);
 		mTab4 = (ImageView) findViewById(R.id.img_settings);
 		
-		mTabImg = (ImageView) findViewById(R.id.tabpager);
+		mTabImg = (ImageView) findViewById(R.id.img_tab_now);
 		
 		mTab1.setOnClickListener(new MyOnClickListener(0));
 		mTab2.setOnClickListener(new MyOnClickListener(1));
@@ -213,5 +225,61 @@ public class MainWeinxin extends Activity{
 		}
 		
 	} 
+	
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode==KeyEvent.KEYCODE_MENU)
+		{
+			if(!menuflag)
+			{
+				layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+				view = layoutInflater.inflate(R.layout.main_menu, null);
+				popupWindow = new PopupWindow(view,LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+				popupWindow.showAtLocation(findViewById(R.id.main_wexin), Gravity.BOTTOM, 0, 0);
+				LinearLayout  linearLayout = (LinearLayout) view.findViewById(R.id.menu_close);
+				LinearLayout  mlinearLayout = (LinearLayout) view.findViewById(R.id.menu_close_btn);
+				mlinearLayout.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						AlertDialog.Builder dialog = new AlertDialog.Builder(MainWeinxin.this);
+						dialog.setTitle("警告");
+						dialog.setMessage("确认退出?");
+						dialog.setCancelable(false);
+						dialog.setPositiveButton("退出", new DialogInterface.OnClickListener() {	
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								finish();
+								instance.finish();
+							}
+						});
+						dialog.setNegativeButton("取消",new DialogInterface.OnClickListener(){
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								popupWindow.dismiss();
+							}				
+						});
+						dialog.show();
+					}
+					
+				});
+				menuflag = true;
+			}
+			
+		}
+		return false;
+	}
+
+
+
+	public void btnmainright(View v)
+	{
+		//Intent intent = new Intent(MainWeinxin.this,MainTopRightDialog.class);
+		//startActivity(intent);
+	}
 	
 }

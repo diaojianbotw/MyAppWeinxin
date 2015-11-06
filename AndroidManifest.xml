@@ -27,6 +27,8 @@
         <activity android:name=".Loading"></activity>
          <activity android:name=".Whatnew"></activity>
          <activity android:name=".WhatsnewDoor"></activity>
+         <activity android:name=".MainWeinxin"></activity>
+          <activity android:name=".MainTopRightDialog"></activity>        
     </application>
 
 </manifest>
