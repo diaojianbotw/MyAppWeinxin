@@ -3,26 +3,42 @@ package com.example.myappweixin;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import util.HttpCallBacak;
+import util.HttpUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
+
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class MainWeinxin extends Activity{
 
@@ -38,11 +54,14 @@ public class MainWeinxin extends Activity{
 	private View view;
 	private PopupWindow popupWindow;
 	private boolean menuflag;
+	private PullToRefreshListView PullToRefresh;
+	private List<DialogBean> dialogData ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_weixin);
+		queryFromServer();
 		//启东活动的时候不弹出软键盘
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		instance = this;
@@ -71,6 +90,10 @@ public class MainWeinxin extends Activity{
 		
 		LayoutInflater mLi = LayoutInflater.from(this);
 		View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
+		//获取listview
+		PullToRefresh = (PullToRefreshListView) view1.findViewById(R.id.pullToRefresh);
+		//dialogData = getDate();
+		
 		View view2 = mLi.inflate(R.layout.main_tab_address, null);
 		View view3 = mLi.inflate(R.layout.main_tab_friends, null);
 		View view4 = mLi.inflate(R.layout.main_tab_settings, null);
@@ -282,4 +305,135 @@ public class MainWeinxin extends Activity{
 		//startActivity(intent);
 	}
 	
+	public List<DialogBean> getDate()
+	{
+		
+		for(int i=0;i<30;i++)
+		{
+			DialogBean dialogBean =new DialogBean();
+			dialogBean.setImageId(R.drawable.xiaohei);
+			dialogBean.setUsername("小黑");
+			dialogBean.setLasttext("再见:"+i);
+			dialogBean.setTime("昨天晚上");
+			dialogData.add(dialogBean);
+		}
+		return dialogData;
+	}
+	
+	public void init()
+	{
+		ILoadingLayout startLabels = PullToRefresh    
+                .getLoadingLayoutProxy(true, false);    
+        startLabels.setPullLabel("下拉刷新...");// 刚下拉时，显示的提示    
+        startLabels.setRefreshingLabel("正在载入...");// 刷新时    
+        startLabels.setReleaseLabel("放开刷新...");// 下来达到一定距离时，显示的提示    
+    
+        ILoadingLayout endLabels = PullToRefresh.getLoadingLayoutProxy(    
+                false, true);    
+        endLabels.setPullLabel("上拉刷新...");// 刚下拉时，显示的提示    
+        endLabels.setRefreshingLabel("正在载入...");// 刷新时    
+        endLabels.setReleaseLabel("放开刷新...");// 下来达到一定距离时，显示的提示    
+          
+	}
+	
+	private class FinishRefresh extends AsyncTask<Void, Void, Void>{    
+        @Override    
+        protected Void doInBackground(Void... params) {    
+             try {    
+                 Thread.sleep(1000);    
+             } catch (InterruptedException e) {    
+             }    
+            return null;    
+        }    
+     
+        @Override    
+        protected void onPostExecute(Void result){    
+//          adapter.notifyDataSetChanged();  
+        	PullToRefresh.onRefreshComplete();
+        }    
+    }   
+	
+	public void queryFromServer()
+	{
+		HttpUtils.sendRequest("http://192.168.1.113:8080/cloudserver/login/loginweixin", new HttpCallBacak() {
+			
+			@Override
+			public void onerror(Exception e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void finish(final String response) {
+			
+				show(response);	
+			}
+		});
+	}
+	
+	public void show(String response)
+	{
+		try {
+			dialogData = new ArrayList<DialogBean>();
+			JSONArray array = new JSONArray(response);
+			for(int i=0;i<array.length();i++)
+			{
+				JSONObject object = new JSONObject();
+				object = (JSONObject) array.get(i);
+				DialogBean dialogBean =new DialogBean();
+				dialogBean.setImageId(R.drawable.xiaohei);
+				dialogBean.setUsername(object.get("name").toString());
+				dialogBean.setLasttext("再见:"+i);
+				dialogBean.setTime("昨天晚上");
+				dialogData.add(dialogBean);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		final MyAdapter adaper = new MyAdapter(MainWeinxin.this,dialogData);
+		PullToRefresh.setAdapter(adaper);
+		PullToRefresh.setMode(Mode.BOTH);
+		init();
+		PullToRefresh.setOnRefreshListener(new OnRefreshListener2() {
+
+			@Override
+			public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+				// TODO Auto-generated method stub
+				DialogBean db = new DialogBean();
+				db.setImageId(R.drawable.xiaohei);
+				db.setTime("昨天晚上");
+				db.setUsername("小小向下");
+				db.setLasttext("再见");
+				dialogData.add(db);
+				new FinishRefresh().execute();
+				adaper.notifyDataSetChanged();
+			}
+
+			@Override
+			public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+				DialogBean db = new DialogBean();
+				db.setImageId(R.drawable.xiaohei);
+				db.setTime("昨天晚上");
+				db.setUsername("小小向上");
+				db.setLasttext("再见");
+				dialogData.add(db);
+				new FinishRefresh().execute();
+				adaper.notifyDataSetChanged();
+				
+			}
+			
+		});
+		PullToRefresh.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				DialogBean bean =  dialogData.get(position);
+				Toast.makeText(MainWeinxin.this, bean.getUsername(), Toast.LENGTH_SHORT).show();
+			}
+			
+		});
+	}
 }

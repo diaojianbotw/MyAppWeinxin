@@ -52,39 +52,19 @@
 	
 	<RelativeLayout 
 	    android:layout_width="match_parent"
-	    android:layout_height="60dp"
-	    android:background="@drawable/mm_listitem"
-	    >
-	    
-	    <ImageView 
-	        android:id="@+id/head"
-	        android:layout_alignParentLeft="true"
-	        android:layout_width="55dp"
-	        android:layout_height="55dp"
-	        android:src="@drawable/xiaohei"
-	        />
-	    <TextView 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="小黑"
-	       	android:textColor="#000"
-	        android:padding="7dp"
-	        android:layout_toRightOf="@+id/head"
-	        />
-	   	<TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_toRightOf="@id/head"
-             android:layout_alignParentBottom="true"
-             android:padding="7dp"
-             android:text="你猜猜...."
-            android:textColor="#666" />
-	   	<TextView 
-	   	    android:layout_width="wrap_content"
-	   	    android:layout_height="wrap_content"
-	   	    android:layout_alignParentRight="true"
-	   	    android:text="昨天晚上"
-	   	    android:padding="7dp"
-	   	    />
+	    android:layout_height="match_parent"
+	    android:background="@drawable/mm_listitem">
+	<!--     ptr:ptrAnimationStyle="flip"  flip:翻转  rotate:旋转-->  
+    <!--     ptr:ptrShowIndicator="true"  右上角 右下角出现箭头--> 
+	<com.handmark.pulltorefresh.library.PullToRefreshListView  
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"  
+        android:id="@+id/pullToRefresh"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"  
+        ptr:ptrDrawable="@drawable/default_ptr_flip"   
+        ptr:ptrAnimationStyle="flip"  
+        ptr:ptrHeaderBackground="#383838"  
+        ptr:ptrHeaderTextColor="#FFFFFF"  
+        />
 	</RelativeLayout>
 </LinearLayout>

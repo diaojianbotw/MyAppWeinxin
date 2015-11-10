@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:clickable="true">
+    
+	<ImageView 
+	    android:id="@+id/sculpture"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:padding="5dp"
+	    android:src="@drawable/xiaohei"
+	    />
+
+	<TextView
+	    android:id="@+id/username"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@+id/sculpture"
+	    android:padding="5dp"
+	    />
+
+	<TextView 
+	    android:id="@+id/lasttext"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@+id/sculpture"
+	    android:layout_below="@+id/username"
+	    android:paddingTop="15dp"
+	    android:paddingLeft="5dp"
+	    />
+	<TextView 
+	    android:id="@+id/time"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:paddingTop="5dp"
+	    android:paddingRight="5dp"
+	   android:layout_toLeftOf="@+id/username"
+	    />
+</RelativeLayout>
